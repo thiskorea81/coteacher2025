@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.venv/
 build/
 develop-eggs/
 dist/
@@ -169,3 +170,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Node
+node_modules/
+dist/
+.DS_Store
+
+# VSCode
+.vscode/

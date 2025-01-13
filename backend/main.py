@@ -1,22 +1,18 @@
 # backend/main.py
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-import os
-
-# 라우터 import
-from routers import schedules
-from routers import tasks
-# ... 필요하다면 계속 import
-
-load_dotenv()
+from .database import Base, engine
+from .routers import tasks  # 라우터 임포트
 
 app = FastAPI()
 
+# DB 테이블 생성 (없으면 생성)
+Base.metadata.create_all(bind=engine)
+
 # CORS 설정
 origins = [
-    "http://localhost:8080",  # Vue.js dev server
-    # 필요한 도메인 추가
+    "http://localhost:8080",  # Vue 개발 서버
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -27,13 +23,8 @@ app.add_middleware(
 )
 
 # 라우터 등록
-app.include_router(schedules.router, prefix="/api/schedules", tags=["Schedules"])
 app.include_router(tasks.router, prefix="/api/tasks", tags=["Tasks"])
-# ...
 
 @app.get("/")
 def root():
-    return {"message": "Coteacher Backend Running"}
-
-# uvicorn 실행시
-# uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    return {"message": "Coteacher Backend Running with SQLite3"}

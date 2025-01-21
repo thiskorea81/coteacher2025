@@ -18,4 +18,4 @@ async def generate_text(prompt: str):
         ]
     )
 
-    return {"reponse": completion.choices[0].message}
+    return {"response": completion.choices[0].message}
